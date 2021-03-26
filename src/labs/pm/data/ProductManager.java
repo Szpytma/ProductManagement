@@ -18,7 +18,8 @@ public class ProductManager {
 
     private final Map<Product, List<Review>> products = new HashMap<>();
     private ResourceFormatter formatter;
-    private final ResourceBundle config = ResourceBundle.getBundle("labs/pm/data/config.properties");
+    private ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
+    //private ResourceBundle config = ResourceBundle.getBundle("labs/pm/data/config.properties");
     private final MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
     private final MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
     private static final Map<String, ResourceFormatter> formatters
