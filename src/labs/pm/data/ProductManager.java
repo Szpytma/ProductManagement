@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 public class ProductManager {
 
-    private Map<Product, List<Review>> products = new HashMap<>();
+    private final Map<Product, List<Review>> products = new HashMap<>();
     private ResourceFormatter formatter;
-    private ResourceBundle config = ResourceBundle.getBundle("labs/pm/data/config.properties");
-   // private MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
-   // private MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
-    private static Map<String, ResourceFormatter> formatters
+    private final ResourceBundle config = ResourceBundle.getBundle("labs/pm/data/config.properties");
+    private final MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
+    private final MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
+    private static final Map<String, ResourceFormatter> formatters
             = Map.of(
             "en-GB", new ResourceFormatter(Locale.UK),
             "en-US", new ResourceFormatter(Locale.US),
@@ -77,13 +77,6 @@ public class ProductManager {
         List<Review> reviews = products.get(product);
         products.remove(product, reviews);
         reviews.add(new Review(rating, comments));
-
-/*        int sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating().ordinal();
-        }
-        product = product.applyRating(Rateable.convert(Math.round((float) sum / reviews.size())));
-        */
         product = product.applyRating(
                 Rateable.convert(
                         (int) Math.round(
@@ -113,8 +106,6 @@ public class ProductManager {
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new ProductManagerException("Product with id:" + id + " not found"));
-        //.get();
-        //.orElseGet(() -> null);
     }
 
     public void printProductReport(int id) {
@@ -140,33 +131,18 @@ public class ProductManager {
                     .map(r -> formatter.formatReview(r) + '\n')
                     .collect(Collectors.joining()));
         }
-        /*for (Review review : reviews) {
-            if (review == null) {
-                break;
-            }
-            txt.append(formatter.formatReview(review));
-            txt.append('\n');
-        }
-        if (reviews.isEmpty()) {
-            txt.append(formatter.getText("no.reviews"));
-            txt.append('\n');
-        }*/
         System.out.println(txt);
     }
 
     public void printProducts(Predicate<Product> filter, Comparator<Product> sorter) {
-        /*List<Product> productList = new ArrayList<>(products.keySet());
-        productList.sort(sorter);*/
+
         StringBuilder txt = new StringBuilder();
         products.keySet()
                 .stream()
                 .sorted(sorter)
                 .filter(filter)
                 .forEach(product -> txt.append(formatter.formatProduct(product)).append('\n'));
-        /*for (Product product : productList) {
-            txt.append(formatter.formatProduct(product));
-            txt.append("\n");
-        }*/
+
         System.out.println(txt);
     }
 
@@ -179,7 +155,7 @@ public class ProductManager {
         System.out.println(txt);
     }
 
-    /*public void parseReview(String text) {
+    public void parseReview(String text) {
         try {
             Object[] values = reviewFormat.parse(text);
             reviewProduct(Integer.parseInt((String) values[0]),
@@ -188,7 +164,7 @@ public class ProductManager {
         } catch (ParseException e) {
             logger.log(Level.WARNING, "Error parsing review " + text, e);
         }
-    }*/
+    }
 
     public Map<String, String> getDiscount() {
         return products.keySet().

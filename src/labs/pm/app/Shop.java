@@ -22,7 +22,7 @@ public class Shop {
         //pm = new ProductManager("en-UK");
 
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), NOT_RATED);
-        //pm.parseReview("101, 4, Just add some lemon");
+        pm.parseReview("101, 4, Just add some lemon");
         //pm.parseReview("101,2, Rather week tea");
 
         pm.printProductReport(101);
