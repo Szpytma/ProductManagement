@@ -20,18 +20,8 @@ public class Shop {
     public static void main(String[] args) throws ProductManagerException {
         ProductManager pm = new ProductManager(Locale.UK);
 
-       // pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), NOT_RATED);
         pm.parseProduct("D,101,Tea,1.99,0,2019-09-19");
-        //pm.parseProduct("D,101,Tea,1.99,0");
         pm.printProductReport(101);
-
-//        pm.reviewProduct(101, FOUR_STAR, "Nice hot cup of tea!");
-//        pm.reviewProduct(101, TWO_STAR, "Rather wak tea");
-//        pm.reviewProduct(101, FOUR_STAR, "Fine tea");
-//        pm.reviewProduct(101, FOUR_STAR, "Good tea");
-//        pm.reviewProduct(101, FIVE_STAR, "Perfect Tea");
-//        pm.reviewProduct(101, THREE_STAR, "Just add some lemon");
-
         pm.parseReview("101,4,Nice hot cup of tea");
         pm.parseReview("101,4,Rather wak tea");
         pm.parseReview("101,4,Fine tea");
@@ -42,6 +32,15 @@ public class Shop {
 
         pm.parseProduct("F,103,Cake,3.99,0,2019-09-19");
         pm.printProductReport(103);
+
+        // pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), NOT_RATED);
+//        pm.reviewProduct(101, FOUR_STAR, "Nice hot cup of tea!");
+//        pm.reviewProduct(101, TWO_STAR, "Rather wak tea");
+//        pm.reviewProduct(101, FOUR_STAR, "Fine tea");
+//        pm.reviewProduct(101, FOUR_STAR, "Good tea");
+//        pm.reviewProduct(101, FIVE_STAR, "Perfect Tea");
+//        pm.reviewProduct(101, THREE_STAR, "Just add some lemon");
+
 //        // pm = new ProductManager("pl-PL");
 //        pm.createProduct(102, "Coffee", BigDecimal.valueOf(1.99), NOT_RATED);
 //        pm.reviewProduct(102, THREE_STAR, "Coffee was OK");

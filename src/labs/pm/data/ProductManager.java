@@ -1,7 +1,13 @@
 package labs.pm.data;
 
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -22,6 +28,9 @@ public class ProductManager {
     private final ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
     private final MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
     private final MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
+    private Path reportsFolder = Path.of(config.getString("reports.folder"));
+    private Path dataFolder = Path.of(config.getString("data.folder"));
+    private Path tempFolder = Path.of(config.getString("temp.folder"));
     private static final Map<String, ResourceFormatter> formatters
             = Map.of(
             "en-GB", new ResourceFormatter(Locale.UK),
@@ -115,24 +124,25 @@ public class ProductManager {
         } catch (ProductManagerException e) {
             //e.printStackTrace();
             logger.log(Level.INFO, e.getMessage());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error printing product report" + e.getMessage(), e);
         }
     }
 
-    public void printProductReport(Product product) {
+    public void printProductReport(Product product) throws IOException {
         List<Review> reviews = products.get(product);
         Collections.sort(reviews);
-        StringBuilder txt = new StringBuilder();
-        txt.append(formatter.formatProduct(product));
-        txt.append('\n');
-
-        if (reviews.isEmpty()) {
-            txt.append(formatter.getText("no.reviews")).append('\n');
-        } else {
-            txt.append(reviews.stream()
-                    .map(r -> formatter.formatReview(r) + '\n')
-                    .collect(Collectors.joining()));
+        Path productFile = reportsFolder.resolve(MessageFormat.format(config.getString("report.file"), product.getId()));
+        try (PrintWriter out = new PrintWriter(new OutputStreamWriter(Files.newOutputStream(productFile, StandardOpenOption.CREATE), "UTF-8"))) {
+            out.append(formatter.formatProduct(product)).append(System.lineSeparator());
+            if (reviews.isEmpty()) {
+                out.append(formatter.getText("no.reviews")).append(System.lineSeparator());
+            } else {
+                out.append(reviews.stream()
+                        .map(r -> formatter.formatReview(r) + System.lineSeparator())
+                        .collect(Collectors.joining()));
+            }
         }
-        System.out.println(txt);
     }
 
     public void printProducts(Predicate<Product> filter, Comparator<Product> sorter) {
@@ -185,7 +195,7 @@ public class ProductManager {
             }
 
         } catch (ParseException | NumberFormatException | DateTimeParseException e) {
-            logger.log(Level.WARNING, "Error parsing product " + text,e);
+            logger.log(Level.WARNING, "Error parsing product " + text, e);
         }
     }
 
