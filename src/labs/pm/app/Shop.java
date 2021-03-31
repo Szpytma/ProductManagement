@@ -3,13 +3,6 @@ package labs.pm.app;
 import labs.pm.data.ProductManager;
 import labs.pm.data.ProductManagerException;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Locale;
-
-import static labs.pm.data.Rating.*;
-
-
 /**
  * {@code Shop} class represents an application that manages Products
  *
@@ -20,19 +13,21 @@ import static labs.pm.data.Rating.*;
 public class Shop {
     public static void main(String[] args) throws ProductManagerException {
         ProductManager pm = new ProductManager("en-GB");
-        pm.printProductReport(101);
-        pm.createProduct(164, "Kombucha", BigDecimal.valueOf(1.99), NOT_RATED);
-        pm.reviewProduct(164, TWO_STAR, "Looks like tea but is it?");
-        pm.reviewProduct(164, FOUR_STAR, "Fine Tea");
-        pm.reviewProduct(164, FOUR_STAR, "This is not tea");
-        pm.reviewProduct(164, FIVE_STAR, "Perfect");
-
-        pm.printProductReport(164);
-        pm.printProducts(p -> p.getPrice().floatValue() < 2, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
-        pm.getDiscount().forEach(
-                (rating, discount) -> System.out.println(rating + "\t" + discount));
-
-
+//        pm.printProductReport(101);
+//        pm.createProduct(164, "Kombucha", BigDecimal.valueOf(1.99), NOT_RATED);
+//        pm.reviewProduct(164, TWO_STAR, "Looks like tea but is it?");
+//        pm.reviewProduct(164, FOUR_STAR, "Fine Tea");
+//        pm.reviewProduct(164, FOUR_STAR, "This is not tea");
+//        pm.reviewProduct(164, FIVE_STAR, "Perfect");
+//
+//        pm.dumpData();
+//        pm.restoreData();
+//        pm.printProductReport(105);
+//        pm.printProductReport(164);
+//
+//        pm.printProducts(p -> p.getPrice().floatValue() < 2, (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+//        pm.getDiscount().forEach(
+//                (rating, discount) -> System.out.println(rating + "\t" + discount));
 //        pm.printProductReport(103);
 //        pm.parseProduct("D,101,Tea,1.99,0,2019-09-19");
 //        pm.parseReview("101,4,Nice hot cup of tea");
