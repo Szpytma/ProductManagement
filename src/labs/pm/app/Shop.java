@@ -13,8 +13,8 @@ import labs.pm.data.ProductManagerException;
 public class Shop {
     public static void main(String[] args) throws ProductManagerException {
         ProductManager pm = ProductManager.getInstance();
-        pm.printProductReport(101,"en-GB");
-        pm.printProductReport(103,"ru-RU");
+        pm.printProductReport(101,"en-GB","001");
+        pm.printProductReport(103,"ru-RU","002");
 
 //        pm.createProduct(164, "Kombucha", BigDecimal.valueOf(1.99), NOT_RATED);
 //        pm.reviewProduct(164, TWO_STAR, "Looks like tea but is it?");
